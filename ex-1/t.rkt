@@ -26,4 +26,15 @@
   )
 )
 
-(abs 15)
+; another implements
+; (define (abs x)
+;   (if (< x 0) (- x) x)
+; )
+
+(define (qaq z c) (< z 5))
+
+(define (a x y)
+  (if (qaq x y) 2 3)
+)
+
+(a 0 2)
