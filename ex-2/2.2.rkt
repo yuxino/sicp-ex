@@ -39,20 +39,25 @@
 
 ; 计算中点
 (define (segment-midpoint segment)
-  (let ((start (segment-start segment))(end (segment-end segment)))
-    (
-    point
-    (
-      average
-      (point-x start)
-      (point-x end)
+  (
+    let (
+      (start (segment-start segment))
+      (end (segment-end segment))
     )
     (
-      average
-      (point-y start)
-      (point-y end)
+      point
+      (
+        average
+        (point-x start)
+        (point-x end)
+      )
+      (
+        average
+        (point-y start)
+        (point-y end)
+      )
     )
-  ))
+  )
 )
 
 
