@@ -33,14 +33,28 @@
 (define (point-y point)
   (cdr point))
 
+; 平均数
+(define (average x y)
+  (/ (+ x y) 2.0))
+
 ; 计算中点
 (define (segment-midpoint segment)
-  (
+  (let ((start (segment-start segment))(end (segment-end segment)))
+    (
     point
-    (/ 2 (+ (point-x (segment-start segment)) (point-x (segment-end segment))))
-    (/ 2 (+ (point-y (segment-start segment)) (point-y (segment-end segment))))
-  )
+    (
+      average
+      (point-x start)
+      (point-x end)
+    )
+    (
+      average
+      (point-y start)
+      (point-y end)
+    )
+  ))
 )
+
 
 (segment-midpoint
   (
