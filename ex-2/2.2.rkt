@@ -34,14 +34,13 @@
   (cdr point))
 
 ; 计算中点
-(define (segment-midpoint segmentA segmentB)
+(define (segment-midpoint segment)
   (
-    (
-      point
-      (/ 2 (+ (point-x (segment-start segmentA)) (point-x (segment-start segmentB))))
-      (/ 2 (+ (point-x (segment-end segmentA)) (point-x (segment-end segmentB))))
-    )
-  ))
+    point
+    (/ 2 (+ (point-x (segment-start segment)) (point-x (segment-end segment))))
+    (/ 2 (+ (point-y (segment-start segment)) (point-y (segment-end segment))))
+  )
+)
 
 (segment-midpoint
   (
