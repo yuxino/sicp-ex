@@ -70,12 +70,14 @@
   (display ")"))
 
 
-(
-  print-point
+(define (print)
   (
-    segment-midpoint
+    print-point
     (
-      make-segment (point 1 2) (point 2 3)
+      segment-midpoint
+      (
+        make-segment (point 1 2) (point 2 3)
+      )
     )
   )
 )
