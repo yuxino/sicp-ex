@@ -4,6 +4,16 @@
 ; (last-pair (list 23 72 149 34))
 ; 34
 
-; ((define (last-pair l) ...))
+(define (list-ref items n)
+  (
+    if (= n 0)
+       (car items)
+       (list-ref (cdr items) (- n 1))
+  )
+)
 
-(list 23 72 149 34)
+(define (last-pair items)
+  (list-ref items (- (length items) 1))
+)
+
+(last-pair (list 23 72 149 34 99))
