@@ -11,11 +11,14 @@
 
  ;; Here's reverse for reference: 
  (define (reverse items) 
- (define (rev-imp items result) 
-  (if (null? items) 
-  result 
-  (rev-imp (cdr items) (cons (car items) result)))) 
-  (rev-imp items nil)) 
+   (define (rev-imp items result) 
+     (if 
+        (null? items) result 
+        (rev-imp (cdr items) (cons (car items) result))
+     )
+   )
+   (rev-imp items nil)
+)
 
  ;; Usage: 
  (reverse x) 
@@ -26,16 +29,26 @@
 
  ;; First try: 
  (define (deep-reverse items) 
- (define (deep-rev-imp items result) 
-  (if (null? items) 
-  result 
-  (let ((first (car items))) 
-  (deep-rev-imp (cdr items) 
-  (cons (if (not (pair? first)) 
-  first 
-  (deep-reverse first)) 
-  result))))) 
-  (deep-rev-imp items nil)) 
+  (define (deep-rev-imp items result) 
+      (
+        if (null? items) result 
+        (
+          let ((first (car items)))
+          (
+            deep-rev-imp (cdr items) 
+            (
+              cons
+               (if (not (pair? first)) first 
+                   (deep-reverse first)
+               )
+               result
+            )
+          )
+        )
+      )
+  ) 
+  (deep-rev-imp items nil)
+) 
 
  ;; Usage: 
  (deep-reverse x) 
