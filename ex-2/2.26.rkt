@@ -1,31 +1,41 @@
 #lang racket
 
-; 翻转树
+; 翻转树 标准答案
+; http://community.schemewiki.org/?sicp-ex-2.27
 
-(define (reverse l)
-  (define (iter l l0)
-    (if (= (length l) 0)
-        l0
-        (iter (cdr l) (cons (car l) l0))))
-  (iter l '()))
+ ;; A value for testing. 
+ (define x (list (list 1 2) (list 3 4)))
 
-(define (fuck-pair items)
-  (cond
-    ((not (pair? items)) items)
-    (else (reverse items))
-  )
-)
+ ;; My environment doesn't have nil. 
+ (define nil '()) 
 
-(define (reverse-tree items)
-  'EOF
-)
+ ;; Here's reverse for reference: 
+ (define (reverse items) 
+ (define (rev-imp items result) 
+  (if (null? items) 
+  result 
+  (rev-imp (cdr items) (cons (car items) result)))) 
+  (rev-imp items nil)) 
 
-; (reverse-tree (cons (list 1 2) (list 3 4)))
+ ;; Usage: 
+ (reverse x) 
 
-; (reverse-tree (list 1))
+ ;; Deep reverse.Same as reverse, but when adding the car to the 
+ ;; result, need to check if the car is a list.If so, deep reverse 
+ ;; it. 
 
-; (reverse-tree (list 3 4))
+ ;; First try: 
+ (define (deep-reverse items) 
+ (define (deep-rev-imp items result) 
+  (if (null? items) 
+  result 
+  (let ((first (car items))) 
+  (deep-rev-imp (cdr items) 
+  (cons (if (not (pair? first)) 
+  first 
+  (deep-reverse first)) 
+  result))))) 
+  (deep-rev-imp items nil)) 
 
-(reverse-tree (cons (list 1) (list 2)))
-
-; (cons (list 1 2) (list 3 4))
+ ;; Usage: 
+ (deep-reverse x) 
