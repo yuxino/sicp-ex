@@ -11,3 +11,5 @@
 (newline)
 (display (cons 1 (cons 2 '())))
 (newline)
+(display (list 1 2 (list 3 4)))
+(newline)
