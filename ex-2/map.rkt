@@ -11,3 +11,5 @@
 )
 
 (map (lambda (x) (* x x)) (list 1 2 3 4))
+
+; (map (lambda (x) (* x x)) (list 1 2 3 (list 4 5 6)))

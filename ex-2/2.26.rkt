@@ -4,7 +4,7 @@
 ; http://community.schemewiki.org/?sicp-ex-2.27
 
  ;; A value for testing. 
- (define x (list (list 1 2) (list 3 4)))
+ (define x (list (list 1 (list 2 1)) (list 3 4)))
 
  ;; My environment doesn't have nil. 
  (define nil '()) 
