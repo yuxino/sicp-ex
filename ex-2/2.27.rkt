@@ -2,6 +2,7 @@
 ; 让树变得平滑 输出结果
 ; 输入 (1 2 (3 (4 5)))
 ; 输出 (1 2 3 4 5)
+(require racket/trace)
 
 (define (fringe items)
   (define (find-item items res)
@@ -14,29 +15,32 @@
     )
   )
 
-  ; res 记录的是最后一个值 对应 cons 的
-  (define (left items res)
-    (cond
+  (define (fringe-ret items res)
+    (cond 
+      ; 右半边的返回值
       ((null? items) res)
-      ((not (pair? items)) items)
-      (else 
-        (left
-          ; 结束表达式
-          (if (pair? items) (car items) '())
-          (if (pair? items) items (car items))
+      (
+        else
+        (cons
+          (
+            ; 当找到最左边的值
+            if 
+            (not (pair? items))
+            items
+            (fringe-ret (car items) 
+              (cons (fringe-ret (cdr items) (cdr items)) res)
+            )
+          )
+          ; 最终的右半边
+          res
         )
       )
     )
   )
-  
-  (define (fringe-ret items)
-    (cons
-      (left items '())
-      'EOF
-    )
-  )
-  
-  (fringe-ret items)
+
+  ; (trace fringe-ret)
+  (fringe-ret items '())
 )
+
 
 (fringe (list (list (list 5) 6 7) 2 (list 3 4)))
