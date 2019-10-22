@@ -20,27 +20,41 @@
    (rev-imp items nil)
 )
 
- ;; Usage: 
-  ; (reverse x) 
-  ; (reverse (list (list 1 2 (list 3 4)) (cons 5 6)))
+(define (append list1 list2)
+  (
+    if (null? list1)
+    list2
+    (
+      cons (car list1) (append (cdr list1) list2)
+    )
+  )
+)
 
- ;; Deep reverse.Same as reverse, but when adding the car to the 
- ;; result, need to check if the car is a list.If so, deep reverse 
- ;; it. 
+(define (deep-reverse li) 
+  (cond 
+    ((null? li) '()) 
+    ; 匹配到值  -> 结束
+    ((not (pair? li)) li) 
+    ; 只处理列表 (这边不处理序对的情况)
+    ; 因为当是序对的时候 要考虑特殊情况
+    ; 如果是序对的话
+    ; append 左值将不是列表。
+    ; 但是如果你让他强行变成列表又会出现新的问题 ...
+    ; 会变的死循环
+    ; 感觉有点儿无解 ....
+    (else 
+      (append 
+        ; 右边
+        (deep-reverse (cdr li))  
+        ; 左边归档成列表
+        (list (deep-reverse (car li)))
+      )
+    )
+  )
+)
 
- (define (deep-reverse lst) 
-   (cond ((null? lst) nil) 
-         ((pair? (car lst)) 
-          (append 
-           (deep-reverse (cdr lst)) 
-           (list (deep-reverse (car lst))))) 
-         (else 
-          (append 
-           (deep-reverse (cdr lst)) 
-           (list (car lst)))))) 
+ (deep-reverse (list 1 2))
+;  (deep-reverse (list 1 2 (list 3 4)))
+;  (deep-reverse (list 1 (cons 2 3)))
 
-
-(list 1 2 (list 3 (list 4 5)))
-
- (deep-reverse (list 1 2 (list 3 4)))
-;  (deep-reverse (list 1 2 (list 3 (list 4 5))))
+; (car (cdr (cons 1 2)))
