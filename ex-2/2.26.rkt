@@ -21,34 +21,26 @@
 )
 
  ;; Usage: 
- (reverse x) 
+  ; (reverse x) 
+  ; (reverse (list (list 1 2 (list 3 4)) (cons 5 6)))
 
  ;; Deep reverse.Same as reverse, but when adding the car to the 
  ;; result, need to check if the car is a list.If so, deep reverse 
  ;; it. 
 
- ;; First try: 
- (define (deep-reverse items) 
-  (define (deep-rev-imp items result) 
-      (
-        if (null? items) result 
-        (
-          let ((first (car items)))
-          (
-            deep-rev-imp (cdr items) 
-            (
-              cons
-               (if (not (pair? first)) first 
-                   (deep-reverse first)
-               )
-               result
-            )
-          )
-        )
-      )
-  )   
-  (deep-rev-imp items nil)
-) 
+ (define (deep-reverse lst) 
+   (cond ((null? lst) nil) 
+         ((pair? (car lst)) 
+          (append 
+           (deep-reverse (cdr lst)) 
+           (list (deep-reverse (car lst))))) 
+         (else 
+          (append 
+           (deep-reverse (cdr lst)) 
+           (list (car lst)))))) 
 
- ;; Usage: 
- (deep-reverse x) 
+
+(list 1 2 (list 3 (list 4 5)))
+
+ (deep-reverse (list 1 2 (list 3 4)))
+;  (deep-reverse (list 1 2 (list 3 (list 4 5))))

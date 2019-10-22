@@ -33,19 +33,41 @@
 ; 反转列表测试用例
 ; (reverse (list 1 2))
 
-; reverse-tree 简易版本 不做深度转换 ..
+; reverse-tree 深度翻转
 (define (reverse-tree tree)
   (define (reverse-tree-iter items result)
     (cond 
       ((end? items) result)
-      ((leaf? items) items)
       (else
         (let ([first (car items)])
-          ; 这里要么是值 要么是列表
-          (pair? first)
-          (reverse-tree-iter 
-            (reverse-tree (cdr items)) 
-            (cons (reverse first) result)
+          ; 判断是否为叶子节点, 此时不存在 下一个元素
+          (cond 
+            (
+              (leaf? first)
+              ; 如果是叶子节点我们把它归档成列表
+              ; 指向上一个值的列表
+              ; 此时是叶子 说明ok了 我们可以填 result 了
+              (
+                reverse-tree-iter  
+                (cdr items)
+                (cons first result)
+              )
+            )
+            ; 不是叶子 那么只可能是序对了 如果是序对还得在做一次深度的递归
+            ; 拼接上次的计算结果。 然后再次计算树节点
+            (else
+              (cons
+                ; 处理序对有空再想吧 ~
+                ; 虽然是很奇怪的想法来着
+                ; (if
+                ;   (list? first)
+                ;   (reverse-tree first)
+                ;   (reverse-tree-iter '() (cons (cdr first) (car first)))
+                ; )
+                (reverse-tree first)
+                result
+              )
+            )
           )
         )
       )
@@ -54,5 +76,5 @@
   (reverse-tree-iter tree empty)
 )
 
-(reverse-tree (list (list 1 2 (list 3 4)) (list 3 4)))
-(reverse-tree (list 1 2 3 4))
+(reverse-tree (list 1 2 (list 3 (list 4 5))))
+; (reverse-tree (list 1 2 (list 3 (cons 4 5))))
