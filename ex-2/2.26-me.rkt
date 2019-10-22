@@ -59,11 +59,6 @@
               (cons
                 ; 处理序对有空再想吧 ~
                 ; 虽然是很奇怪的想法来着
-                ; (if
-                ;   (list? first)
-                ;   (reverse-tree first)
-                ;   (reverse-tree-iter '() (cons (cdr first) (car first)))
-                ; )
                 (reverse-tree first)
                 result
               )
