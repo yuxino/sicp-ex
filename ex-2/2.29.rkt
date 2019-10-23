@@ -1,4 +1,4 @@
-; #lang racket
+#lang racket
 
 ;; 二叉活动体。大概就是一个傻逼玩意。
 ;; 一个简单的列表，有左右两边。
@@ -41,3 +41,52 @@
 )
 
 ;; 算总重量
+(define (total-weight mobile)
+  
+  (define (walk mobile acc)
+    (iter
+      (branch-structure 
+        (left-branch mobile)
+      )
+      (
+        iter
+        (branch-structure 
+          (right-branch mobile)
+        )
+        acc
+      )
+    )
+  )
+
+  (define (iter structure acc)
+    (cond 
+      ((list? structure) 
+        (walk structure acc)
+      )
+      ((not (pair? structure)) (+ acc structure))
+    )
+  )
+
+  (walk mobile 0)
+)
+
+(
+  define 
+  mobile 
+  (make-mobile
+    (make-branch 5 
+      (make-mobile 
+        (make-branch 10 60)
+        (make-branch 10 40)
+      )
+    )
+    (make-branch 5 
+      (make-mobile 
+        (make-branch 10 60)
+        (make-branch 10 40)
+      )
+    )
+  )
+)
+
+(total-weight mobile)
