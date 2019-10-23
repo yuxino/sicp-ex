@@ -95,59 +95,75 @@
 ; (total-weight mobile)
 
 ;; 判断是否平衡
-;; balanced?
-
-; 首先得是序对其次再取右分支
-(define (isMobile? branch)
-  (and 
-    (pair? branch)
-    (pair? (branch-structure branch))
-  )
-)
-
-; 如果不是 mobile 开始计算值。
-; 取长度, 取重量。这部分是 acc
-
-(define (torque branch)
-  (* (branch-length branch) (branch-structure branch))
-)
-
-; 配尼玛呢配 不会!
+;; 平衡尼玛不会!
 (define (balanced mobile)
-  ; 这里算总和
-  (define (iter branch acc)
-    (
-      cond 
-      ; ((null? branch) acc)
-      ; 不管是左边还是右边都需要计算两边的和
-      ; 检查如果右边是 mobile 继续递归
-      ; (isMobile? (right-branch mobile))
-      (else 
-        (let
-          (
-            ; 长度
-            [left (left-branch branch)]
-            ; 右半边
-            [right (right-branch branch)]
-          )
-          ; 如果右半边还是有东西
-          ; 如果右半边是值 直接计算出结果
-          (if (isMobile? right)
-            ; 最小分支的值也是上次计算出来的结果
-            (+ (torque branch) acc)
-          )
-        )
+
+  ;; 这里算总和
+  ;; 有两种可能。
+  ;; 第一种 普通分支
+  ;; 第二种 二叉体 (mobile)
+  ;; 定义来说 普通分支乘积 = 分支长度 * 总量
+  ;; 定义来说 二叉体乘积 = 二叉体的长度 * (某个量/某个二叉体的和)
+  ;; 左右分支 又同时可能是二叉体或者普通分支
+
+  ;; 脑补的普通分支处理
+  ;; length * weight
+  (define (torque branch)
+    (* (branch-length branch) (branch-structure branch))
+  )
+
+  ;; 那么问题是 什么叫做普通 ?
+  ;; 一个右边不为二叉体的分支我们视为是一个单纯的普通分支
+  (define (isMobile? branch)
+    (and
+      (list? branch)
+      (
+        not (pair? (left-branch branch))
+      )
+      (
+        list? (right-branch branch)
       )
     )
   )
 
-  (display "left:")
-  (display (iter (left-branch mobile) 0))
-  (display "\tright:")
-  (display (iter (right-branch mobile) 0))
-  (newline)
-  
-  #f
+  ;; 那也就是说普通分支就是 (not (isMobile? branch))
+  ;; 也就是说如果满足这个条件会执行 "torque"
+  ;; 那么好 现在是一个二叉分支怎么做呢 ?
+  ;; 根据前面的理解
+  ;; 二叉体乘积 = 二叉体的长度 * (左右分支的和)
+  ;; 在这里。我们如果想计算二叉体的总和。
+  ;; 那么会有 count = (length mobile) * (?)
+  ;; 左右分支总和 = count = 乘积(左边分支) + 乘积(右边分支)
+  ;; 二叉体的总和 = (length mobile) * count
+
+  (define (count branch)
+    (
+      +
+      (iter (left-branch branch))
+      (iter (right-branch branch))
+    )
+  )
+
+  ; 现在变得简单了起来 
+  ; 要么是普通要么是二叉 二叉就进入下一步
+  ; 要么是值
+  (define (iter branch)
+    (if (isMobile? branch)
+      (
+        *
+        (branch-length branch)
+        (count (cadr branch))
+      )
+      (torque branch)
+    )
+  )
+
+  ; 这里是比较公式
+  (if ( = (iter (left-branch mobile))
+          (iter (right-branch mobile)))
+    "yes !!!"
+    "no ~~~"
+  )
 )
 
 (balanced mobile)
