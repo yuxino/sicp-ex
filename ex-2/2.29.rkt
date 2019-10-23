@@ -139,15 +139,15 @@
   (define (count branch)
     (
       +
-      (iter (left-branch branch))
-      (iter (right-branch branch))
+      (calc (left-branch branch))
+      (calc (right-branch branch))
     )
   )
 
   ; 现在变得简单了起来 
   ; 要么是普通要么是二叉 二叉就进入下一步
   ; 要么是值
-  (define (iter branch)
+  (define (calc branch)
     (if (isMobile? branch)
       (
         *
@@ -158,9 +158,50 @@
     )
   )
 
+  ;; 计算测试用例
+  ; ;; 普通分支 15
+  ; (display (calc (make-branch 3 5)))
+  ; (newline)
+  ; ;; 分支二叉体 60
+  ; (display 
+  ;   (calc    
+  ;     (
+  ;       make-branch 3 
+  ;       (make-mobile
+  ;         (make-branch 1 10)
+  ;         (make-branch 1 10)
+  ;       )
+  ;     )
+  ;   )
+  ; )
+  ; (newline)
+  ; ;; 复杂分支 150
+  ; (display 
+  ;   (calc
+  ;     ;; 150
+  ;     (
+  ;       make-branch 3 
+  ;       ;; 50
+  ;       (make-mobile
+  ;         ;; 10
+  ;         (make-branch 1 10)
+  ;         ;; 40
+  ;         (make-branch 2
+  ;           ;; 20
+  ;           (make-mobile
+  ;             (make-branch 1 10)
+  ;             (make-branch 1 10)
+  ;           ) 
+  ;         )
+  ;       )
+  ;     )
+  ;   )
+  ; )
+  ; (newline)
+
   ; 这里是比较公式
-  (if ( = (iter (left-branch mobile))
-          (iter (right-branch mobile)))
+  (if ( = (calc (left-branch mobile))
+          (calc (right-branch mobile)))
     "yes !!!"
     "no ~~~"
   )
